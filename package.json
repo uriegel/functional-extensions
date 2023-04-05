@@ -1,15 +1,21 @@
 {
     "name": "functional-extensions",
-    "version": "0.0.2",
+    "version": "0.0.4",
     "description": "Extension functions for Typescript, mostly functional extensions",
     "author": "uriegel",
     "license": "MIT",
     "repository": "uriegel/tsextensions",
-    "main": "dist/index.js",
+    "main": "dist/string.js",
+    "files": [
+        "dist"
+    ],
     "scripts": {
-      "do publish test": "npm publish --dry-run",
-      "do publish": "npm publish",
-      "typescript": "tsc -p src/component"
+        "build": "tsc",
+        "do publish test": "npm run build && npm publish --dry-run",
+        "do publish": "npm run build && npm publish",
+        "typescript": "tsc -p src/component"
+    },
+    "devDependencies": {
+        "typescript": "^5.0.3"
     }
-  }
-  
+}
