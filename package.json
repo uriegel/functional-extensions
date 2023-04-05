@@ -4,7 +4,7 @@
     "description": "Extension functions for Typescript, mostly functional extensions",
     "author": "uriegel",
     "license": "MIT",
-    "repository": "uriegel/tsextensions",
+    "repository": "uriegel/functional-extensions",
     "main": "dist/string.js",
     "files": [
         "dist"
