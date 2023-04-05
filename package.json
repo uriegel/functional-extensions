@@ -1,14 +1,11 @@
 {
     "name": "functional-extensions",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Extension functions for Typescript, mostly functional extensions",
     "author": "uriegel",
     "license": "MIT",
     "repository": "uriegel/tsextensions",
     "main": "dist/index.js",
-    "files": [
-      "dist"
-    ],
     "scripts": {
       "do publish test": "npm publish --dry-run",
       "do publish": "npm publish",
