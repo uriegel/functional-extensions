@@ -1,39 +1,3 @@
-export { }
-
-declare global {
-    interface String {
-        /** 
-         * Returns a substring after a found char, not including the char 
-        */
-        substringAfter(startChar: string): string
-    
-        /**
-        * Returns a substring, until a char in the string is found, not including the found char
-        */
-        substringUntil(endChar: string): string
-    
-        /**
-        * Combination of 'SubstringAfter' and 'SubstringUntil', returning a substring embedded between 'startChar and 'endChar'
-        */
-        stringBetween(startChar: string, endChar: string): string
-    
-        lastIndexOfAny(chars: string[]): number
-
-        /**
-         * Running a side effect function on this string, returning this string
-         * 
-         * @param sideEffect Function which is called with this string as parameter as side effect function
-         */
-        sideEffect(sideEffect: (s: string) => void): string
-
-        /**
-         * Parses this string and returns a number if possible othwewise null
-         */
-        parseInt(): number|null
-    }
-   
-}
-
 // eslint-disable-next-line
 String.prototype.substringAfter = function (startChar: string): string {
     const posStart = this?.indexOf(startChar) + 1 ?? -1
