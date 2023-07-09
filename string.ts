@@ -18,6 +18,18 @@ declare global {
         stringBetween(startChar: string, endChar: string): string
     
         lastIndexOfAny(chars: string[]): number
+
+        /**
+         * Running a side effect function on this string, returning this string
+         * 
+         * @param sideEffect Function which is called with this string as parameter as side effect function
+         */
+        sideEffect(sideEffect: (s: string) => void): string
+
+        /**
+         * Parses this string and returns a number if possible othwewise null
+         */
+        parseInt(): number|null
     }
    
 }
@@ -55,5 +67,19 @@ String.prototype.lastIndexOfAny = function (chars: string[]): number {
             : this.lastIndexOfAny(chars.slice(1))
     } else 
         return -1
+}
+
+// eslint-disable-next-line
+String.prototype.sideEffect = function (sideEffect: (s: string)=>void): string {
+    sideEffect(this as string)
+    return this as string
+}
+
+// eslint-disable-next-line
+String.prototype.parseInt = function (): number|null {
+    var result = Number.parseInt(this as string)
+    return Number.isNaN(result)
+        ? null
+        : result
 }
 
