@@ -1,5 +1,5 @@
 export { }
-export { Result, Err, Ok } from "./result"
+import { Result, Err, Ok } from "./result"
 
 declare global {
     interface String {
@@ -173,3 +173,6 @@ Date.prototype.removeMilliseconds = function () {
     return newDate
 }
 
+export { Result }
+export { Err }
+export { Ok }
