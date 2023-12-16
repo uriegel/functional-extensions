@@ -60,27 +60,26 @@ declare global {
          * @param t Element to check
          */
         contains(t: T): boolean
+
+        /**
+         * returns a distinct array, removing duplicate values
+         */
+        distinct(): T[] 
     }
-}
 
-Array.prototype.sideEffectForEach = function<T> (sideEffect: (t: T)=>void): T[] {
-    this.forEach(sideEffect)
-    return this 
-}
+    interface Number {
+        /**
+         * returns as string interpretation of the byte count representated by this
+         */
+        byteCountToString(): string
+    }
 
-Array.prototype.insert = function<T> (index: number, t: T): T[] {
-    return [...this.slice(0, index),
-        t,
-        ...this.slice(index)
-    ]
-}
-
-Array.prototype.append = function<T> (t: T): T[] {
-    return [...this, t]
-}
-
-Array.prototype.contains = function <T>(t: T): boolean {
-    return this.find(n => n === t) != undefined
+    interface Date { 
+        /**
+         * returns a Date not containing the milliseconds
+         */
+        removeMilliseconds(): Date 
+    }
 }
 
 String.prototype.substringAfter = function (startChar: string): string {
@@ -126,3 +125,49 @@ String.prototype.parseInt = function (): number|null {
         : result
 }
 
+Array.prototype.sideEffectForEach = function<T> (sideEffect: (t: T)=>void): T[] {
+    this.forEach(sideEffect)
+    return this 
+}
+
+Array.prototype.insert = function<T> (index: number, t: T): T[] {
+    return [...this.slice(0, index),
+        t,
+        ...this.slice(index)
+    ]
+}
+
+Array.prototype.append = function<T> (t: T): T[] {
+    return [...this, t]
+}
+
+Array.prototype.contains = function <T>(t: T): boolean {
+    return this.find(n => n === t) != undefined
+}
+
+Array.prototype.distinct = function () {
+    return [...new Set(this)]
+}
+
+Number.prototype.byteCountToString = function () {
+    const gb = Math.floor(this.valueOf() / (1024 * 1024 * 1024))
+    const mb = this.valueOf() % (1024 * 1024 * 1024)
+    if (gb >= 1.0)
+        return `${gb},${mb.toString().substring(0, 2)} GB`
+    const mb2 = Math.floor(this.valueOf() / (1024 * 1024))
+    const kb = this.valueOf() % (1024 * 1024)
+    if (mb2 >= 1.0)
+        return `${mb2},${kb.toString().substring(0, 2)} MB`
+    const kb2 = Math.floor(this.valueOf() / 1024)
+    const b = this.valueOf() % 1024
+    if (kb2 >= 1.0)
+        return `${kb2},${b.toString().substring(0, 2)} KB`
+    else
+        return `${b} B`
+}
+
+Date.prototype.removeMilliseconds = function () {
+    const newDate = new Date(this.getTime())
+    newDate.setMilliseconds(0)
+    return newDate
+}

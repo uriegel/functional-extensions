@@ -7,7 +7,6 @@ function App() {
 		console.log("substringAfter", "substring after/this here".substringAfter("/"))
 		console.log("substringUntil", "substring until/this here".substringUntil("/"))
 		console.log("stringBetween", "substring between{this here} and not more".stringBetween("{", "}"))
-		// TODO!!! first index
 		console.log("lastIndexOfAny", "substring between{this here} and not more".lastIndexOfAny(["{", "}"]))
 		"substring between{this here} and not more".sideEffect(console.log)
 		console.log("parse 89", "89".parseInt())
@@ -25,10 +24,29 @@ function App() {
 		console.log("contains 123", numberarr.contains(123))
 	}
 
+	const testNumbers = () => {
+		var byte = 123
+		console.log("as bytes", byte.byteCountToString())
+		var kbyte = 1234
+		console.log("as bytes", kbyte.byteCountToString())
+		var mbyte = 1234567
+		console.log("as bytes", mbyte.byteCountToString())
+		var gbyte = 1234567890
+		console.log("as bytes", gbyte.byteCountToString())
+	}
+
+	const testDate = () => {
+		var date = new Date()
+		console.log(date, date.getMilliseconds())
+		console.log(date.removeMilliseconds(), date.removeMilliseconds().getMilliseconds())
+	}
+
 	return (	
 		<div className="cont">
 			<button onClick={testStrings}>Test strings</button>	
 			<button onClick={testArrays}>Test arrays</button>	
+			<button onClick={testNumbers}>Test numbers</button>	
+			<button onClick={testDate}>Test Date</button>	
 		</div>
 	)
 }
