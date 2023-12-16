@@ -1,4 +1,5 @@
 export { }
+export { Result, Err, Ok } from "./result"
 
 declare global {
     interface String {
@@ -171,3 +172,4 @@ Date.prototype.removeMilliseconds = function () {
     newDate.setMilliseconds(0)
     return newDate
 }
+
