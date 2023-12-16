@@ -81,6 +81,12 @@ declare global {
          */
         removeMilliseconds(): Date 
     }
+
+    interface Promise<T> { 
+        toAsync<T>(value: T): Promise<T>
+        map<U>(func: (value: T) => U): Promise<U>
+        bind<U>(func: (value: T) => Promise<U>): Promise<U>
+    }
 }
 
 String.prototype.substringAfter = function (startChar: string): string {
@@ -172,6 +178,23 @@ Date.prototype.removeMilliseconds = function () {
     newDate.setMilliseconds(0)
     return newDate
 }
+
+Promise.prototype.toAsync = function<T>(value: T): Promise<T> {
+    return new Promise(res => res(value))
+}
+
+Promise.prototype.map = function<T, U>(func: (value: T) => U): Promise<U> {
+    return this.then(v => func(v))
+}
+
+Promise.prototype.bind = function<T, U>(func: (value: T) => Promise<U>): Promise<U> {
+    return this.then(async v => await func(v))
+}
+
+export const delayAsync = (ms: number) => 
+    new Promise(res => {
+        setTimeout(res, ms)
+    })
 
 export { Result }
 export { Err }

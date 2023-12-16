@@ -1,6 +1,7 @@
 import "./App.css"
 import "../extensions/index"
 import { Result, Ok, Err } from "../extensions/result"
+import { delayAsync } from "../extensions/index"
 
 function App() {
 
@@ -91,6 +92,27 @@ function App() {
 		two.whenError(err => console.log("whenError two err", err))
 	}	
 
+	const testAsyncTasks = () => {
+		const addSlowly = async (a: number, b: number) => {
+			await delayAsync(1000)
+			return a + b
+		}
+	
+		const a1 = new Promise<number>(res => res(8))
+		const a2 = a1.map(v => v + 18)
+		const a3 = a2.bind(v => addSlowly(v, 20))
+		const a4 = a2
+					.bind(v => addSlowly(v, 20))
+					.bind(v => addSlowly(v, 40))
+					.bind(v => addSlowly(v, 60))
+					.map(v => v + 1)
+			
+		a1.then(v => console.log("a1", v))
+		a2.then(v => console.log("a2", v))
+		a3.then(v => console.log("a3", v))
+		a4.then(v => console.log("a4", v))		
+	}
+
 	return (	
 		<div className="cont">
 			<button onClick={testStrings}>Test strings</button>	
@@ -98,6 +120,7 @@ function App() {
 			<button onClick={testNumbers}>Test numbers</button>	
 			<button onClick={testDate}>Test Date</button>	
 			<button onClick={testResult}>Test Result</button>	
+			<button onClick={testAsyncTasks}>Test Async</button>	
 		</div>
 	)
 }
