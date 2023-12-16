@@ -120,7 +120,7 @@ function App() {
 			await delayAsync(1000)
 			return (v + a) % 2 == 0
 				? new Ok(v + a)
-				: new Err("Ergebnis ist nicht gerade")
+				: new Err("Result is not even")
 		}
 
 		const addSlow = async (v: number, a: number): Promise<number> => {
@@ -140,15 +140,15 @@ function App() {
 		const res5 = zwei
 						.mapAsync(v => addSlow(v, 5))
 						.mapAsync(v => addSlow(v, 1))
-		// const res6 = zwei.bindAsync(v => addEvenSlow(v, 6))
-		// const res7 = zwei.bindAsync(v => addEvenSlow(v, 5))
-		// const res8 = drei.bindAsync(v => addEvenSlow(v, 10))
-		// const res9 = vier.bindAsync(v => addEvenSlow(v, 5))
-		// const res109 = vier
-		// 		.bindAsync(v => addEvenSlow(v, 10))
-		// 		.bindAsync(v => addEvenSlow(v, 8))
-		// 		.bindAsync(v => addEvenSlow(v, 200))
-		// 			.map(v => v + 1)
+		const res6 = zwei.bindAsync(v => addEvenSlow(v, 6))
+		const res7 = zwei.bindAsync(v => addEvenSlow(v, 5))
+		const res8 = drei.bindAsync(v => addEvenSlow(v, 10))
+		const res9 = vier.bindAsync(v => addEvenSlow(v, 5))
+		const res10 = vier
+				.bindAsync(v => addEvenSlow(v, 10))
+				.bindAsync(v => addEvenSlow(v, 8))
+				.bindAsync(v => addEvenSlow(v, 200))
+					.map(v => v + 1)
 
 		const ausgabe = async () => {
 			console.log("1", await eins.toResult(), await zwei.toResult())
@@ -158,10 +158,13 @@ function App() {
 			console.log("5", await res3.toResult())
 			console.log("6", await res4.toResult())
 			console.log("7", await res5.toResult())
-			// console.log("8", await res6.toResult())
-			// console.log("9", await res7.toResult())
+			console.log("8", await res6.toResult())
+			console.log("9", await res7.toResult())
+			console.log("10", await res8.toResult())
+			console.log("11", await res9.toResult())
+			console.log("12", await res10.toResult())
 
-			console.log("AsyncResult", await res1.toResult(), await res2.toResult(), await res3.toResult(), await res4.toResult(), await res5.toResult()) //, await res6.toResult())
+			console.log("AsyncResult", await res1.toResult(), await res2.toResult(), await res3.toResult(), await res4.toResult(), await res5.toResult(), await res6.toResult())
 		}
 		ausgabe()
 	}
