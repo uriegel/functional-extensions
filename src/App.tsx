@@ -25,18 +25,18 @@ function App() {
 	}
 
 	const testNumbers = () => {
-		var byte = 123
+		const byte = 123
 		console.log("as bytes", byte.byteCountToString())
-		var kbyte = 1234
+		const kbyte = 1234
 		console.log("as bytes", kbyte.byteCountToString())
-		var mbyte = 1234567
+		const mbyte = 1234567
 		console.log("as bytes", mbyte.byteCountToString())
-		var gbyte = 1234567890
+		const gbyte = 1234567890
 		console.log("as bytes", gbyte.byteCountToString())
 	}
 
 	const testDate = () => {
-		var date = new Date()
+		const date = new Date()
 		console.log(date, date.getMilliseconds())
 		console.log(date.removeMilliseconds(), date.removeMilliseconds().getMilliseconds())
 	}
