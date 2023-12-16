@@ -49,7 +49,7 @@ declare global {
         insert(index: number, t: T): T[]
 
         /**
-         * Functionally appaned a T t to this array leaving the original array untouched and returns a new array
+         * Functionally appends a T t to this array leaving the original array untouched and returns a new array
          * 
          * @param t Element to insert
          */
@@ -80,7 +80,7 @@ Array.prototype.append = function<T> (t: T): T[] {
 }
 
 Array.prototype.contains = function <T>(t: T): boolean {
-    return this.find(n => n === t)
+    return this.find(n => n === t) != undefined
 }
 
 String.prototype.substringAfter = function (startChar: string): string {
