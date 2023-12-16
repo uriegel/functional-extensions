@@ -25,11 +25,11 @@ export class Ok<T, E> extends Result<T, E> {
         return func(this.ok)
     }
 
-    match<TR>(okFunc: (value: T) => TR, _: (_: E) => TR): TR {
+    match<TR>(okFunc: (value: T) => TR): TR {
         return okFunc(this.ok)
     }
     
-    whenError(_: (value: E) => void): void {}
+    whenError() {}
 
     // toJSON(): string {
     //     return "Hello"
@@ -39,15 +39,15 @@ export class Ok<T, E> extends Result<T, E> {
 export class Err<T, E> extends Result<T, E> {
     constructor(private error: E) { super() }
 
-    map<U>(_: (value: T) => U): Result<U, E> {
+    map<U>(): Result<U, E> {
         return this.error as Result<U, E>
     }
 
-    bind<U>(_: (value: T) => Result<U, E>): Result<U, E> {
+    bind<U>(): Result<U, E> {
         return this.error as Result<U, E>
     }
 
-    match<TR>(_: (_: T) => TR, errFunc: (e: E) => TR): TR {
+    match<TR>(_: (__: T) => TR, errFunc: (e: E) => TR): TR {
         return errFunc(this.error)
     }
     

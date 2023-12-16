@@ -90,7 +90,7 @@ declare global {
 }
 
 String.prototype.substringAfter = function (startChar: string): string {
-    const posStart = this?.indexOf(startChar) + 1 ?? -1
+    const posStart = (this?.indexOf(startChar) ?? -2) + 1 
     return posStart != -1 && posStart < this.length - 1
     ? this.substring(posStart)
     : ""
