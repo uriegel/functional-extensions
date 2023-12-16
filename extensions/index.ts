@@ -1,4 +1,5 @@
 export { }
+import { AsyncResult } from "./asyncresult"
 import { Result, Err, Ok } from "./result"
 
 declare global {
@@ -199,3 +200,4 @@ export const delayAsync = (ms: number) =>
 export { Result }
 export { Err }
 export { Ok }
+export { AsyncResult }

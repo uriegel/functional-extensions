@@ -4,7 +4,7 @@ export abstract class Result<T, E> {
     abstract match<TR>(
         okFunc: (value: T) => TR,
         errFunc: (value: E) => TR): TR
-    abstract whenError(errFunc: (value: E) => void): void
+    abstract whenError(errFunc: (value: E) => void): Result<T, E>
         
     static parseJSON<T, E>(json: string): Result<T, E> {
         const obj = JSON.parse(json)
@@ -29,7 +29,7 @@ export class Ok<T, E> extends Result<T, E> {
         return okFunc(this.ok)
     }
     
-    whenError() {}
+    whenError() { return this }
 
     // toJSON(): string {
     //     return "Hello"
@@ -51,8 +51,9 @@ export class Err<T, E> extends Result<T, E> {
         return errFunc(this.error)
     }
     
-    whenError(errFunc: (value: E) => void): void {
+    whenError(errFunc: (value: E) => void) {
         errFunc(this.error)
+        return this
     }
 }
 

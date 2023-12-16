@@ -1,4 +1,4 @@
-import { Ok, Result } from "./result";
+import { Err, Ok, Result } from "./result";
 
 export class AsyncResult<T, E> {
     constructor(private resultTask: Promise<Result<T, E>>) { }
@@ -16,7 +16,10 @@ export class AsyncResult<T, E> {
     }
     mapAsync<U>(func: (value: T) => Promise<U>): AsyncResult<U, E> {
         return new AsyncResult(
-            new Promise<Result<U, E>>(res => this.resultTask.map(r => r.map(r => func(r).then(u => res(new Ok<U, E>(u)))))))
+            new Promise<Result<U, E>>(res => this.resultTask.map(r => r
+                .whenError(e => res(new Err<U, E>(e)))
+                .map(r => func(r)
+                .then(u => res(new Ok<U, E>(u)))))))
     }
     bind<U>(func: (value: T) => Result<U, E>): AsyncResult<U, E> {
         return new AsyncResult(this.resultTask.map(r => r.bind(r => func(r))))

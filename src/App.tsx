@@ -1,6 +1,7 @@
 import "./App.css"
 import "../extensions/index"
 import { Result, Ok, Err } from "../extensions/result"
+import { AsyncResult } from "../extensions/asyncresult"
 import { delayAsync } from "../extensions/index"
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
 		console.log("SideEffectForEach")
 		const numberarr = [1, 2, 3, 4, 5, 6]
 		numberarr.sideEffectForEach(i => console.log(i))
-		
+
 		console.log("insert", numberarr.insert(1, 123), numberarr)
 		console.log("append", numberarr.append(456), numberarr)
 		console.log("contains 5", numberarr.contains(5))
@@ -43,12 +44,13 @@ function App() {
 		console.log(date.removeMilliseconds(), date.removeMilliseconds().getMilliseconds())
 	}
 
+	const onlyEven = (val: number): Result<number, string> =>
+	val % 2 == 0
+		? new Ok(val)
+			: new Err("Is not even")
+
 	const testResult = () => {
-		const onlyEven = (val: number): Result<number, string> => 
-		val % 2 == 0
-			? new Ok(val) 
-				: new Err("Is not even")
-		
+
 		const addEven = (v: number, a: number): Result<number, string> =>
 			(v + a) % 2 == 0
 			? new Ok(v + a)
@@ -90,14 +92,14 @@ function App() {
 		two.match(ok => console.log("match two ok", ok), err => console.log("match two err", err))
 		one.whenError(err => console.log("whenError one err", err))
 		two.whenError(err => console.log("whenError two err", err))
-	}	
+	}
 
 	const testAsyncTasks = () => {
 		const addSlowly = async (a: number, b: number) => {
 			await delayAsync(1000)
 			return a + b
 		}
-	
+
 		const a1 = new Promise<number>(res => res(8))
 		const a2 = a1.map(v => v + 18)
 		const a3 = a2.bind(v => addSlowly(v, 20))
@@ -106,21 +108,73 @@ function App() {
 					.bind(v => addSlowly(v, 40))
 					.bind(v => addSlowly(v, 60))
 					.map(v => v + 1)
-			
+
 		a1.then(v => console.log("a1", v))
 		a2.then(v => console.log("a2", v))
 		a3.then(v => console.log("a3", v))
-		a4.then(v => console.log("a4", v))		
+		a4.then(v => console.log("a4", v))
 	}
 
-	return (	
+	const testAsyncResult = () => {
+		const addEvenSlow = async (v: number, a: number): Promise<Result<number, string>> => {
+			await delayAsync(1000)
+			return (v + a) % 2 == 0
+				? new Ok(v + a)
+				: new Err("Ergebnis ist nicht gerade")
+		}
+
+		const addSlow = async (v: number, a: number): Promise<number> => {
+			await delayAsync(1000)
+			return v + a
+		}
+
+		const eins = AsyncResult.ToAsyncResult(onlyEven(1))
+		const zwei = AsyncResult.ToAsyncResult(onlyEven(2))
+		const drei = AsyncResult.ToAsyncResult(onlyEven(3))
+		const vier = AsyncResult.ToAsyncResult(onlyEven(4))
+
+		const res1 = eins.map(v => v + 5)
+		const res2 = zwei.map(v => v + 5)
+		const res3 = zwei.mapAsync(v => addSlow(v, 5))
+		const res4 = drei.mapAsync(v => addSlow(v, 5))
+		const res5 = zwei
+						.mapAsync(v => addSlow(v, 5))
+						.mapAsync(v => addSlow(v, 1))
+		// const res6 = zwei.bindAsync(v => addEvenSlow(v, 6))
+		// const res7 = zwei.bindAsync(v => addEvenSlow(v, 5))
+		// const res8 = drei.bindAsync(v => addEvenSlow(v, 10))
+		// const res9 = vier.bindAsync(v => addEvenSlow(v, 5))
+		// const res109 = vier
+		// 		.bindAsync(v => addEvenSlow(v, 10))
+		// 		.bindAsync(v => addEvenSlow(v, 8))
+		// 		.bindAsync(v => addEvenSlow(v, 200))
+		// 			.map(v => v + 1)
+
+		const ausgabe = async () => {
+			console.log("1", await eins.toResult(), await zwei.toResult())
+			console.log("2", await drei.toResult(), await vier.toResult())
+			console.log("3", await res1.toResult())
+			console.log("4", await res2.toResult())
+			console.log("5", await res3.toResult())
+			console.log("6", await res4.toResult())
+			console.log("7", await res5.toResult())
+			// console.log("8", await res6.toResult())
+			// console.log("9", await res7.toResult())
+
+			console.log("AsyncResult", await res1.toResult(), await res2.toResult(), await res3.toResult(), await res4.toResult(), await res5.toResult()) //, await res6.toResult())
+		}
+		ausgabe()
+	}
+
+	return (
 		<div className="cont">
-			<button onClick={testStrings}>Test strings</button>	
-			<button onClick={testArrays}>Test arrays</button>	
-			<button onClick={testNumbers}>Test numbers</button>	
-			<button onClick={testDate}>Test Date</button>	
-			<button onClick={testResult}>Test Result</button>	
-			<button onClick={testAsyncTasks}>Test Async</button>	
+			<button onClick={testStrings}>Test strings</button>
+			<button onClick={testArrays}>Test arrays</button>
+			<button onClick={testNumbers}>Test numbers</button>
+			<button onClick={testDate}>Test Date</button>
+			<button onClick={testResult}>Test Result</button>
+			<button onClick={testAsyncTasks}>Test Async</button>
+			<button onClick={testAsyncResult}>Test AsyncResult</button>
 		</div>
 	)
 }
