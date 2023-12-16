@@ -1,6 +1,6 @@
 {
     "name": "functional-extensions",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "description": "Extension functions for Typescript, mostly functional extensions",
     "author": "uriegel",
     "license": "MIT",
@@ -8,7 +8,7 @@
         "type": "git",
         "url": "git+https://github.com/uriegel/functional-extensions.git"
     },
-    "main": "../extensions/dist/index.js",
+    "main": "extensions/dist/index.js",
     "files": [
         "extensions/dist"
     ],
