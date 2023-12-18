@@ -14,6 +14,9 @@ export class AsyncResult<T, E> {
     map<U>(func: (value: T) => U): AsyncResult<U, E> {
         return new AsyncResult(this.resultTask.map(r => r.map(r => func(r))))
     }
+    mapError<TEr>(func: (value: E) => TEr): AsyncResult<T, TEr> {
+        return new AsyncResult(this.resultTask.map(r => r.mapError(r => func(r))))
+    }
     mapAsync<U>(func: (value: T) => Promise<U>): AsyncResult<U, E> {
         return new AsyncResult(
             new Promise<Result<U, E>>(res => this.resultTask.map(r => r

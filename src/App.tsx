@@ -4,6 +4,16 @@ import { Result, Ok, Err } from "../extensions/result"
 import { AsyncResult } from "../extensions/asyncresult"
 import { delayAsync } from "../extensions/index"
 
+type Error = {
+	msg: string
+	id: number
+}
+
+const mapStrToError = (s: string):Error => ({
+	msg: s,
+	id: 789
+})
+
 function App() {
 
 	const testStrings = () => {
@@ -76,8 +86,15 @@ function App() {
 		const res7 = four
 						.bind(v => addEven(v, 10))
 						.bind(v => addEven(v, 8))
-						.bind(v => addEven(v, 200)
-						.map(v => v + 1))
+						.bind(v => addEven(v, 200))
+						.mapError(mapStrToError)
+						.map(v => v + 1)
+		const res8 = three
+						.bind(v => addEven(v, 10))
+						.bind(v => addEven(v, 8))
+						.bind(v => addEven(v, 200))
+						.mapError(mapStrToError)
+						.map(v => v + 1)
 
 
 		console.log("one.map(v => v + 5)", res1)
@@ -87,6 +104,7 @@ function App() {
 		console.log("four.bind(v => addEven(v, 4))", res5)
 		console.log("four.bind(v => addEven(v, 5))", res6)
 		console.log("complex...", res7)
+		console.log("complex error...", res8)
 
 		one.match(ok => console.log("match one ok", ok), err => console.log("match one err", err))
 		two.match(ok => console.log("match two ok", ok), err => console.log("match two err", err))

@@ -1,5 +1,6 @@
 export abstract class Result<T, E> {
     abstract map<U>(func: (value: T) => U): Result<U, E>
+    abstract mapError<TEr>(func: (value: E) => TEr): Result<T, TEr> 
     abstract bind<U>(func: (value: T) => Result<U, E>): Result<U, E>
     abstract match<TR>(
         okFunc: (value: T) => TR,
@@ -19,6 +20,10 @@ export class Ok<T, E> extends Result<T, E> {
 
     map<U>(func: (value: T) => U): Result<U, E> {
         return new Ok(func(this.ok))
+    }
+
+    mapError<TEr>(): Result<T, TEr> {
+        return new Ok<T, TEr>(this.ok) as Result<T, TEr>
     }
     
     bind<U>(func: (value: T) => Result<U, E>): Result<U, E> {
@@ -40,11 +45,15 @@ export class Err<T, E> extends Result<T, E> {
     constructor(private error: E) { super() }
 
     map<U>(): Result<U, E> {
-        return this.error as Result<U, E>
+        return new Err<U, E>(this.error) as Result<U, E>
+    }
+
+    mapError<TEr>(func: (value: E) => TEr): Result<T, TEr> {
+        return new Err<T, TEr>(func(this.error))
     }
 
     bind<U>(): Result<U, E> {
-        return this.error as Result<U, E>
+        return new Err<U, E>(this.error) as Result<U, E>
     }
 
     match<TR>(_: (__: T) => TR, errFunc: (e: E) => TR): TR {
