@@ -1,5 +1,6 @@
 export { }
 import { AsyncResult } from "./asyncresult"
+import { ErrorType, jsonPost, setBaseUrl } from "./requests"
 import { Result, Err, Ok } from "./result"
 
 declare global {
@@ -201,3 +202,6 @@ export { Result }
 export { Err }
 export { Ok }
 export { AsyncResult }
+export { jsonPost }
+export { setBaseUrl }
+export { ErrorType }
