@@ -3,7 +3,7 @@ import { Err, Ok, Result } from "./result";
 export class AsyncResult<T, E> {
     constructor(private resultTask: Promise<Result<T, E>>) { }
     
-    static ToAsyncResult<T, E>(result: Result<T, E>): AsyncResult<T, E> {
+    static from<T, E>(result: Result<T, E>): AsyncResult<T, E> {
         return new AsyncResult<T, E>(new Promise<Result<T, E>>(res => res(result)))
     }
 

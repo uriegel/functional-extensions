@@ -147,10 +147,10 @@ function App() {
 			return v + a
 		}
 
-		const eins = AsyncResult.ToAsyncResult(onlyEven(1))
-		const zwei = AsyncResult.ToAsyncResult(onlyEven(2))
-		const drei = AsyncResult.ToAsyncResult(onlyEven(3))
-		const vier = AsyncResult.ToAsyncResult(onlyEven(4))
+		const eins = AsyncResult.from(onlyEven(1))
+		const zwei = AsyncResult.from(onlyEven(2))
+		const drei = AsyncResult.from(onlyEven(3))
+		const vier = AsyncResult.from(onlyEven(4))
 
 		const res1 = eins.map(v => v + 5)
 		const res2 = zwei.map(v => v + 5)
