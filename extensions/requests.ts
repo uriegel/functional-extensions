@@ -1,15 +1,11 @@
 import { AsyncResult } from "./asyncresult"
+import { ErrorType } from "./index"
 import { Err, Ok, Result } from "./result"
 
 type RequestType = {
     method: string
     /* eslint-disable @typescript-eslint/no-explicit-any */
     payload?: any
-}
-
-export interface ErrorType {
-    status: number
-    statusText: string
 }
 
 let baseUrl = ""

@@ -1,7 +1,12 @@
 export { }
 import { AsyncResult } from "./asyncresult"
-import { ErrorType, jsonPost, setBaseUrl } from "./requests"
+import { jsonPost, setBaseUrl } from "./requests"
 import { Result, Err, Ok } from "./result"
+
+export interface ErrorType {
+    status: number
+    statusText: string
+}
 
 declare global {
     interface String {
@@ -204,4 +209,3 @@ export { Ok }
 export { AsyncResult }
 export { jsonPost }
 export { setBaseUrl }
-export { ErrorType }

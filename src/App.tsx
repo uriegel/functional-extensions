@@ -134,7 +134,8 @@ function App() {
 	}
 
 	const testAsyncResult = () => {
-		const addEvenSlow = async (v: number, a: number): Promise<Result<number, string>> => {
+		const addEvenSlow = (v: number, a: number) => new AsyncResult<number, string>(addEvenSlowP(v, a))
+		const addEvenSlowP = async (v: number, a: number): Promise<Result<number, string>> => {
 			await delayAsync(1000)
 			return (v + a) % 2 == 0
 				? new Ok(v + a)
