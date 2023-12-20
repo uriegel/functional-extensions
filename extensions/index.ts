@@ -8,6 +8,10 @@ export interface ErrorType {
     statusText: string
 }
 
+export type Nothing = {}
+
+export const nothing: Nothing = {}
+
 declare global {
     interface String {
         /** 
