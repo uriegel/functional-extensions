@@ -28,11 +28,11 @@ export class AsyncResult<T, E> {
         return new AsyncResult(this.resultTask.map(r => r.bind(r => func(r))))
     }
 
-    bindAsync<U>(func: (value: T)=>Promise<Result<U, E>>): AsyncResult<U, E> {
+    bindAsync<U>(func: (value: T) => AsyncResult<U, E>): AsyncResult<U, E> {
         return new AsyncResult(
             new Promise<Result<U, E>>(res => this.resultTask.map(r => r
                 .match(
-                    r => { func(r).then(u => res(u)) },
+                    r => { func(r).toResult().then(u => res(u)) },
                     e => res(new Err<U, E>(e))))))
     }
 }
