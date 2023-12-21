@@ -9,9 +9,9 @@ export abstract class Result<T, E> {
         
     static parseJSON<T, E>(json: string): Result<T, E> {
         const obj = JSON.parse(json)
-        return obj.ok
-        ? new Ok<T, E>(obj.ok as T)
-        : new Err<T, E>(obj.error as E)
+        return obj.error
+        ? new Err<T, E>(obj.error as E)
+        : new Ok<T, E>(obj.ok as T)
     }
 }
   

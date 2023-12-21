@@ -180,12 +180,16 @@ function App() {
 			console.log("8", await res6.toResult())
 			console.log("9", await res7.toResult())
 			console.log("10", await res8.toResult())
-			console.log("11", await res9.toResult())
-			console.log("12", await res10.toResult())
-
 			console.log("AsyncResult", await res1.toResult(), await res2.toResult(), await res3.toResult(), await res4.toResult(), await res5.toResult(), await res6.toResult())
 		}
 		ausgabe()
+
+		const resMatch = <T, E>(res: AsyncResult<T, E>) => res.match(
+			ok => console.log("AsyncResult.ok", ok),
+			err => console.log("AsyncResult.err", err),
+		)
+		resMatch(res9)
+		resMatch(res10)
 	}
 
 	return (

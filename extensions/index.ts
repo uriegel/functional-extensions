@@ -8,7 +8,7 @@ export interface ErrorType {
     statusText: string
 }
 
-export type Nothing = {}
+export type Nothing = Record<string, never>
 
 export const nothing: Nothing = {}
 
