@@ -31,7 +31,7 @@ export function jsonPost<T, TE extends ErrorType>(request: RequestType): AsyncRe
                 })
         } catch (err) {
             return new Err<string, ErrorType>({
-                status: 0,
+                status: 1000,
                 /* eslint-disable @typescript-eslint/no-explicit-any */
                 statusText: (err as any).message
             })
