@@ -126,7 +126,7 @@ function App() {
 					.bind(v => addSlowly(v, 40))
 					.bind(v => addSlowly(v, 60))
 					.map(v => v + 1)
-
+		
 		a1.then(v => console.log("a1", v))
 		a2.then(v => console.log("a2", v))
 		a3.then(v => console.log("a3", v))
@@ -188,6 +188,18 @@ function App() {
 			ok => console.log("AsyncResult.ok", ok),
 			err => console.log("AsyncResult.err", err),
 		)
+
+		const resMatchResult = (res: AsyncResult<number, string>) => res.match(
+			ok => ok,
+			() => 999,
+		)
+
+		const logMatchResult = (p: Promise<number>) =>
+			p.then(n => console.log("matchResult", n))
+
+		logMatchResult(resMatchResult(res9))
+		logMatchResult(resMatchResult(res10))
+
 		resMatch(res9)
 		resMatch(res10)
 	}
