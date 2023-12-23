@@ -44,4 +44,11 @@ export class AsyncResult<T, E> {
 
         matchAsync()
     }
+
+    matchResult<TR>(okFunc: (t: T) => TR, errFunc: (e: E) => TR) {
+        const matchAsync = async () => 
+            (await this.resultTask).match(okFunc, errFunc)
+
+        return matchAsync()
+    }
 }

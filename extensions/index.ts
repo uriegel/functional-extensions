@@ -94,7 +94,6 @@ declare global {
     }
 
     interface Promise<T> { 
-        toAsync<T>(value: T): Promise<T>
         map<U>(func: (value: T) => U): Promise<U>
         bind<U>(func: (value: T) => Promise<U>): Promise<U>
     }
@@ -190,10 +189,6 @@ Date.prototype.removeMilliseconds = function () {
     return newDate
 }
 
-Promise.prototype.toAsync = function<T>(value: T): Promise<T> {
-    return new Promise(res => res(value))
-}
-
 Promise.prototype.map = function<T, U>(func: (value: T) => U): Promise<U> {
     return this.then(v => func(v))
 }
@@ -206,6 +201,8 @@ export const delayAsync = (ms: number) =>
     new Promise(res => {
         setTimeout(res, ms)
     })
+
+export const toAsync = <T>(t: T) => new Promise<T>(res => res(t))
 
 export { Result }
 export { Err }

@@ -2,7 +2,7 @@ import "./App.css"
 import "../extensions/index"
 import { Result, Ok, Err } from "../extensions/result"
 import { AsyncResult } from "../extensions/asyncresult"
-import { delayAsync } from "../extensions/index"
+import { delayAsync, toAsync } from "../extensions/index"
 
 type Error = {
 	msg: string
@@ -118,7 +118,7 @@ function App() {
 			return a + b
 		}
 
-		const a1 = new Promise<number>(res => res(8))
+		const a1 = toAsync(8)
 		const a2 = a1.map(v => v + 18)
 		const a3 = a2.bind(v => addSlowly(v, 20))
 		const a4 = a2
