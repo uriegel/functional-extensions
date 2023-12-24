@@ -74,6 +74,10 @@ function App() {
 		console.log("Two toJson", twoStr)
 		const one = Result.parseJSON<number, string>(oneStr)
 		const two = Result.parseJSON<number, string>(twoStr)
+		const oneStr1 = JSON.stringify(one)
+		const twoStr1 = JSON.stringify(two)
+		console.log("One toJson", oneStr1)
+		console.log("Two toJson", twoStr1)
 		const three = onlyEven(3)
 		const four = onlyEven(4)
 

@@ -13,6 +13,8 @@ export abstract class Result<T, E> {
         ? new Err<T, E>(obj.error as E)
         : new Ok<T, E>(obj.ok as T)
     }
+
+//    abstract toJSON(): string
 }
   
 export class Ok<T, E> extends Result<T, E> {
@@ -37,7 +39,7 @@ export class Ok<T, E> extends Result<T, E> {
     whenError() { return this }
 
     // toJSON(): string {
-    //     return "Hello"
+    //     return JSON.stringify(this.ok)
     // }
 }
 
@@ -64,6 +66,12 @@ export class Err<T, E> extends Result<T, E> {
         errFunc(this.error)
         return this
     }
+
+    isError = true
+
+    // toJSON(): string {
+    //     return JSON.stringify({ error: this.error, isError: true })
+    // }
 }
 
 
