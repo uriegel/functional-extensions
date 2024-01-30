@@ -1,5 +1,6 @@
 export { }
 import { AsyncResult } from "./asyncresult"
+import { AsyncEnumerable } from "./asyncenumerable"
 import { jsonPost, setBaseUrl } from "./requests"
 import { Result, Err, Ok } from "./result"
 
@@ -101,6 +102,7 @@ declare global {
     interface Promise<T> { 
         map<U>(func: (value: T) => U): Promise<U>
         bind<U>(func: (value: T) => Promise<U>): Promise<U>
+        pipe<U>(adapter: (value: Promise<T>)=>U): U
     }
 }
 
@@ -206,6 +208,10 @@ Promise.prototype.bind = function<T, U>(func: (value: T) => Promise<U>): Promise
     return this.then(async v => await func(v))
 }
 
+Promise.prototype.pipe = function<T, U>(adapter: (value: Promise<T>)=>U): U {
+    return adapter(this)
+}
+
 export const delayAsync = (ms: number) => 
     new Promise(res => {
         setTimeout(res, ms)
@@ -222,5 +228,6 @@ export { Result }
 export { Err }
 export { Ok }
 export { AsyncResult }
+export { AsyncEnumerable }
 export { jsonPost }
 export { setBaseUrl }
