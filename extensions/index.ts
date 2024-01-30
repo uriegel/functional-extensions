@@ -204,6 +204,11 @@ export const delayAsync = (ms: number) =>
 
 export const toAsync = <T>(t: T) => new Promise<T>(res => res(t))
 
+export const sideEffect = <T>(t: T, sideEffect: (t: T)=>void) => {
+    sideEffect(t)
+    return t
+}
+
 export { Result }
 export { Err }
 export { Ok }
