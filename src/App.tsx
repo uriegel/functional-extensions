@@ -16,6 +16,10 @@ const mapStrToError = (s: string):Error => ({
 
 function App() {
 
+	const nullableArray = [3, null, 6, undefined, 9]
+	const nonNullableArray = nullableArray.filterNone()
+	console.log("nonNullableArray", nonNullableArray)
+
 	const testStrings = () => {
 		console.log("substringAfter", "substring after/this here".substringAfter("/"))
 		console.log("substringUntil", "substring until/this here".substringUntil("/"))

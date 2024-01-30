@@ -77,6 +77,11 @@ declare global {
          * returns a distinct array, removing duplicate values
          */
         distinct(): T[] 
+
+        /**
+         * filters elements which are null or undefined
+         */
+        filterNone(): NonNullable<T>[] 
     }
 
     interface Number {
@@ -164,6 +169,10 @@ Array.prototype.contains = function <T>(t: T): boolean {
 
 Array.prototype.distinct = function () {
     return [...new Set(this)]
+}
+
+Array.prototype.filterNone = function <T>(): NonNullable<T>[] {
+    return this.filter(n => n) as NonNullable<T>[]
 }
 
 Number.prototype.byteCountToString = function () {
