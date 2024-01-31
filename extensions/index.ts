@@ -3,6 +3,9 @@ import { AsyncResult } from "./asyncresult"
 import { AsyncEnumerable } from "./asyncenumerable"
 import { jsonPost, setBaseUrl } from "./requests"
 import { Result, Err, Ok } from "./result"
+import { Resetter } from "./Resetter"
+import { RefCell } from "./refcell"
+import { memoize, memoizeAsync } from "./memoization"
 
 export interface ErrorType {
     status: number
@@ -229,5 +232,9 @@ export { Err }
 export { Ok }
 export { AsyncResult }
 export { AsyncEnumerable }
+export { Resetter }
+export { RefCell }
 export { jsonPost }
 export { setBaseUrl }
+export { memoize }
+export { memoizeAsync }
