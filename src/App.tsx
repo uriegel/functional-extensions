@@ -3,6 +3,7 @@ import "../extensions/index"
 import { Result, Ok, Err } from "../extensions/result"
 import { AsyncResult } from "../extensions/asyncresult"
 import { delayAsync, toAsync } from "../extensions/index"
+import { AsyncEnumerable } from "../extensions/asyncenumerable"
 
 type Error = {
 	msg: string
@@ -16,7 +17,32 @@ const mapStrToError = (s: string):Error => ({
 
 function App() {
 
-	const testStrings = () => {
+	const testStrings = async () => {
+
+		const delayedValue = (value: number): Promise<number> => 
+			new Promise(resolve => 
+				setTimeout(() => resolve(value), 1000))
+
+		async function* generate(): AsyncIterable<number> {
+			yield delayedValue(2000)
+			yield delayedValue(100)
+			yield delayedValue(500)
+			console.log("Die 4")
+			yield delayedValue(250)
+			console.log("Die 5")
+			yield delayedValue(125)
+			yield delayedValue(50)
+		}
+
+		const p = await new AsyncEnumerable(generate())
+			.map(n => `Das ist gemäppt: ${n}`)
+			.take(4)
+			.await()
+		console.log("p", p);
+
+		for await (const value of generate()) 
+			console.log("value", value);
+		
 		console.log("substringAfter", "substring after/this here".substringAfter("/"))
 		console.log("substringUntil", "substring until/this here".substringUntil("/"))
 		console.log("stringBetween", "substring between{this here} and not more".stringBetween("{", "}"))
