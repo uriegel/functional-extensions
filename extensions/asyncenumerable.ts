@@ -61,6 +61,16 @@ export class AsyncEnumerable<T> {
         return new AsyncEnumerable(map(this.asyncIterable))
     }
 
+    prepend(t: T) {
+        async function* map(asyncIterable: AsyncIterable<T>): AsyncIterable<T> {
+            yield t
+            for await (const value of asyncIterable) {
+                yield value
+            }
+		}
+        return new AsyncEnumerable(map(this.asyncIterable))
+    }
+
     async await() {
         const fromAsync = async (source: Iterable<T> | AsyncIterable<T>): Promise<T[]> => {
             const items:T[] = [];
@@ -70,12 +80,4 @@ export class AsyncEnumerable<T> {
         }
         return await fromAsync(this.asyncIterable)
     }
-
-    // bind<R>(selector: (n: T)=>AsyncEnumerable<R>) {
-    //     async function* map(asyncIterable: AsyncIterable<T>): AsyncIterator<R> {
-    //         for await (const value of asyncIterable) 
-    //             yield selector(value)
-	// 	}
-    //     return map(this.asyncIterable)
-    // }
 }
