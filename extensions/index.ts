@@ -86,6 +86,18 @@ declare global {
          * filters elements which are null or undefined
          */
         filterNone(): NonNullable<T>[] 
+        
+        /**
+         * Like LINQ Take: takes <count> items from the array
+         * @param count 
+         */
+        take(count: number): T[]
+
+        /**
+         * Like LINQ Skip: skips <count> items from the array
+         * @param count 
+         */
+        skip(count: number): T[]
     }
 
     interface Number {
@@ -178,6 +190,14 @@ Array.prototype.distinct = function () {
 
 Array.prototype.filterNone = function <T>(): NonNullable<T>[] {
     return this.filter(n => n) as NonNullable<T>[]
+}
+
+Array.prototype.take = function <T>(count: number): T[] {
+    return count >= 0 ? this.slice(0, count) : []
+}
+
+Array.prototype.skip = function <T>(count: number): T[] {
+    return count > 0 ? this.slice(count) : this
 }
 
 Number.prototype.byteCountToString = function () {

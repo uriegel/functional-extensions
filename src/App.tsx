@@ -17,6 +17,20 @@ const mapStrToError = (s: string):Error => ({
 
 function App() {
 
+	const arr = [1, 2, 3, 4, 5]
+	console.log("arr.take -1", arr.take(-1))
+	console.log("arr.take 0", arr.take(0))
+	console.log("arr.take 1", arr.take(1))
+	console.log("arr.take 3", arr.take(3))
+	console.log("arr.take 5", arr.take(5))
+	console.log("arr.take 50", arr.take(50))
+	console.log("arr.skip -1", arr.skip(-1))
+	console.log("arr.skip 0", arr.skip(0))
+	console.log("arr.skip 1", arr.skip(1))
+	console.log("arr.skip 3", arr.skip(3))
+	console.log("arr.skip 5", arr.skip(5))
+	console.log("arr.skip 50", arr.skip(50))
+	
 	const testStrings = async () => {
 
 		const delayedValue = (value: number): Promise<number> => 
