@@ -28,7 +28,7 @@
     },
     "scripts": {
         "dev": "vite",
-        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+        "lint": "tsc -p extensions && tsc && eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "do publish test": "npm run build && npm publish --dry-run",
         "do publish": "npm run build && npm publish",
         "build": "tsc -p extensions"
