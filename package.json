@@ -1,6 +1,6 @@
 {
     "name": "functional-extensions",
-    "version": "1.9.3",
+    "version": "1.9.4",
     "description": "Extension functions for Typescript, mostly functional extensions",
     "author": "uriegel",
     "license": "MIT",

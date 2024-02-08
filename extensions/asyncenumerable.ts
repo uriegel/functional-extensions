@@ -80,4 +80,6 @@ export class AsyncEnumerable<T> {
         }
         return await fromAsync(this.asyncIterable)
     }
+
+    asIterable() { return this.asyncIterable }
 }
