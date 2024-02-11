@@ -12,6 +12,8 @@ let baseUrl = ""
 
 export const setBaseUrl = (url: string) => baseUrl = url
 
+//TODO https://reqres.in/
+
 export function jsonPost<T, TE extends ErrorType>(request: RequestType): AsyncResult<T, TE> {
  
     const msg = {
