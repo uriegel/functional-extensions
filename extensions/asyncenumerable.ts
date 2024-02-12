@@ -1,3 +1,5 @@
+import { createResolverPromise } from "./resolverpromise"
+
 export class AsyncEnumerable<T> {
     constructor(private asyncIterable: AsyncIterable<T>) { }
 
@@ -9,6 +11,49 @@ export class AsyncEnumerable<T> {
                 yield enumerable[i]
         }
         return new AsyncEnumerable<T>(generate())
+    }
+
+
+    static fromPromises<T>(promises: Promise<T>[]) {
+        const queue = [] as T[]
+        let promisesLeft = promises.length
+
+        let resolverPromise = createResolverPromise<T>()
+
+        promises.forEach(n => n.then(m => {
+            promisesLeft--
+            if (!resolverPromise.isResolved()) {
+                resolverPromise.resolve(m)
+            }
+            else 
+                queue.push(m)
+        }))
+        
+        async function* generate(): AsyncIterable<T> {
+            while (true) {
+                if (queue.length > 0) 
+                    yield queue.shift()!
+                else {
+                    yield await resolverPromise.promise
+                    resolverPromise = createResolverPromise()
+                }
+                if (promisesLeft <= 0)
+                    return
+            }
+        }
+        return new AsyncEnumerable<T>(generate())
+    }
+
+    static fromArrayPromises<T>(promises: Promise<T[]>[]) {
+        const asyncEnumerables = this.fromPromises(promises)
+
+        async function* map(asyncEnumerables: AsyncEnumerable<T[]>): AsyncIterable<T> {
+            for await (const value of asyncEnumerables.asIterable()) {
+                for (const v of value)
+                    yield v
+            }
+		}
+        return new AsyncEnumerable(map(asyncEnumerables))
     }
 
     filter(predicate: (t: T)=>boolean): AsyncEnumerable<T> {
