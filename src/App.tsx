@@ -298,24 +298,23 @@ function App() {
 
 	const testParallelArrayAsyncSemaphore = async () => {
 
-		const sem = createSemaphore(2, 2)
+		const sem = createSemaphore(4, 4)
 		const testAsync = async (id: string, delayinSecs: number) => {
 			await sem.wait()
-			console.log("gehtlos")
 			await delayAsync(delayinSecs * 1000)
 			sem.release()
 			return [id, id + 1, id + 2]
 		}
 
 		const testMany = AsyncEnumerable.fromArrayPromises([
-			testAsync("1", 2),
+			testAsync("1", 4),
 			testAsync("2", 1),
 			testAsync("3", 1),
 			testAsync("4", 1),
 			testAsync("5", 1),
 			testAsync("6", 1),
-			testAsync("7", 10),
-			testAsync("8", 4),
+			testAsync("7", 20),
+			testAsync("8", 8),
 		])
 
 		console.log("Start")
