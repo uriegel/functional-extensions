@@ -6,10 +6,23 @@ import { Result, Err, Ok } from "./result"
 import { Resetter } from "./Resetter"
 import { RefCell } from "./refcell"
 import { memoize, memoizeAsync } from "./memoization"
+import { createResolverPromise } from "./resolverpromise"
+import { createSemaphore } from "./semaphore"
 
 export interface ErrorType {
     status: number
     statusText: string
+}
+
+export type Semaphore = {
+    wait: ()=>Promise<void>
+    release: ()=>void
+}
+
+export type ResolverPromise<T> = {
+    promise: Promise<T>
+    resolve: (t: T)=>void
+    isResolved: ()=>boolean
 }
 
 export type Nothing = Record<string, never>
@@ -258,3 +271,5 @@ export { jsonPost }
 export { setBaseUrl }
 export { memoize }
 export { memoizeAsync }
+export { createResolverPromise }
+export { createSemaphore }

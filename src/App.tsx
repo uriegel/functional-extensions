@@ -2,7 +2,7 @@ import "./App.css"
 import "../extensions/index"
 import { Result, Ok, Err } from "../extensions/result"
 import { AsyncResult } from "../extensions/asyncresult"
-import { delayAsync, toAsync } from "../extensions/index"
+import { createSemaphore, delayAsync, toAsync } from "../extensions/index"
 import { AsyncEnumerable } from "../extensions/asyncenumerable"
 
 type Error = {
@@ -248,6 +248,80 @@ function App() {
 		resMatch(res10)
 	}
 
+	const testParallelAsync = async () => {
+
+		const testAsync = async (id: string, delayinSecs: number) => {
+			await delayAsync(delayinSecs * 1000)
+			return id
+		}
+
+		const testMany = AsyncEnumerable.fromPromises([
+			testAsync("1", 2),
+			testAsync("2", 1),
+			testAsync("3", 1),
+			testAsync("4", 1),
+			testAsync("5", 1),
+			testAsync("6", 1),
+			testAsync("7", 10),
+			testAsync("8", 4),
+		])
+
+		console.log("Start")
+		for await (const id of testMany.asIterable()) {
+			console.log("Test Async", id)
+			await delayAsync(200)
+		}
+	}
+
+	const testParallelArrayAsync = async () => {
+
+		const testAsync = async (id: string, delayinSecs: number) => {
+			await delayAsync(delayinSecs * 1000)
+			return [id, id + 1, id + 2]
+		}
+
+		const testMany = AsyncEnumerable.fromArrayPromises([
+			testAsync("1", 2),
+			testAsync("2", 1),
+			testAsync("3", 1),
+			testAsync("4", 1),
+			testAsync("5", 1),
+			testAsync("6", 1),
+			testAsync("7", 10),
+			testAsync("8", 4),
+		])
+
+		console.log("Start")
+		for await (const id of testMany.asIterable()) 
+			console.log("Test Async", id)
+	}
+
+	const testParallelArrayAsyncSemaphore = async () => {
+
+		const sem = createSemaphore(4, 4)
+		const testAsync = async (id: string, delayinSecs: number) => {
+			await sem.wait()
+			await delayAsync(delayinSecs * 1000)
+			sem.release()
+			return [id, id + 1, id + 2]
+		}
+
+		const testMany = AsyncEnumerable.fromArrayPromises([
+			testAsync("1", 4),
+			testAsync("2", 1),
+			testAsync("3", 1),
+			testAsync("4", 1),
+			testAsync("5", 1),
+			testAsync("6", 1),
+			testAsync("7", 20),
+			testAsync("8", 8),
+		])
+
+		console.log("Start")
+		for await (const id of testMany.asIterable()) 
+			console.log("Test Async", id)
+	}
+
 	return (
 		<div className="cont">
 			<button onClick={testStrings}>Test strings</button>
@@ -257,6 +331,9 @@ function App() {
 			<button onClick={testResult}>Test Result</button>
 			<button onClick={testAsyncTasks}>Test Async</button>
 			<button onClick={testAsyncResult}>Test AsyncResult</button>
+			<button onClick={testParallelAsync}>Test parallel async</button>
+			<button onClick={testParallelArrayAsync}>Test parallel array async</button>
+			<button onClick={testParallelArrayAsyncSemaphore}>Test parallel array async semaphore</button>
 		</div>
 	)
 }
