@@ -2,8 +2,9 @@ import "./App.css"
 import "../extensions/index"
 import { Result, Ok, Err } from "../extensions/result"
 import { AsyncResult } from "../extensions/asyncresult"
-import { delayAsync, toAsync } from "../extensions/index"
+import { ErrorType, delayAsync, toAsync } from "../extensions/index"
 import { AsyncEnumerable } from "../extensions/asyncenumerable"
+import { jsonGet, setBaseUrl } from "../extensions/requests"
 
 type Error = {
 	msg: string
@@ -14,6 +15,13 @@ const mapStrToError = (s: string):Error => ({
 	msg: s,
 	id: 789
 })
+
+type JsonGetResult = {
+	page: number,
+    per_page: number,
+    total: number,
+    total_pages: number
+}
 
 function App() {
 
@@ -248,6 +256,14 @@ function App() {
 		resMatch(res10)
 	}
 
+	const runJsonGet = () => {
+		
+		setBaseUrl("https://reqres.in")
+
+		const result = jsonGet<JsonGetResult, ErrorType>("api/users?page=2")
+		console.log("jsonGet", result)
+	}
+
 	return (
 		<div className="cont">
 			<button onClick={testStrings}>Test strings</button>
@@ -257,6 +273,7 @@ function App() {
 			<button onClick={testResult}>Test Result</button>
 			<button onClick={testAsyncTasks}>Test Async</button>
 			<button onClick={testAsyncResult}>Test AsyncResult</button>
+			<button onClick={runJsonGet}>JSON Get</button>			
 		</div>
 	)
 }
