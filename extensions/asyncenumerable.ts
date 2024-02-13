@@ -13,9 +13,9 @@ export class AsyncEnumerable<T> {
         return new AsyncEnumerable<T>(generate())
     }
 
-
     static fromPromises<T>(promises: Promise<T>[]) {
         const queue = [] as T[]
+        let lastError: Error|null = null
         let promisesLeft = promises.length
 
         let resolverPromise = createResolverPromise<T>()
@@ -23,10 +23,18 @@ export class AsyncEnumerable<T> {
         promises.forEach(n => n.then(m => {
             promisesLeft--
             if (!resolverPromise.isResolved()) {
-                resolverPromise.resolve(m)
+                if (!lastError)
+                    resolverPromise.resolve(m)
+                else
+                    resolverPromise.reject(lastError)    
             }
             else 
                 queue.push(m)
+        }).catch(e => { 
+            if (!resolverPromise.isResolved()) 
+                resolverPromise.reject(e)
+            else 
+                lastError = e
         }))
         
         async function* generate(): AsyncIterable<T> {

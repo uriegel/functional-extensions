@@ -322,6 +322,41 @@ function App() {
 			console.log("Test Async", id)
 	}
 
+	const testParallelArrayAsyncSemaphoreError = async () => {
+
+		const sem = createSemaphore(4, 4)
+		const testAsync = async (id: string, delayinSecs: number) => {
+			await sem.wait()
+			await delayAsync(delayinSecs * 1000)
+			if (id == "err")
+				throw { error: "Error", code: 1234 }
+			sem.release()
+			return [id, id + 1, id + 2]
+		}
+
+		const testMany = AsyncEnumerable.fromArrayPromises([
+			testAsync("1", 4),
+			testAsync("2", 1),
+			testAsync("err", 1),
+			testAsync("3", 1),
+			testAsync("4", 1),
+			testAsync("5", 1),
+			testAsync("6", 1),
+			testAsync("7", 20),
+			testAsync("8", 8),
+		])
+
+		console.log("Start")
+		try {
+			for await (const id of testMany.asIterable()) {
+				console.log("Test Async", id)
+//				await delayAsync(299)
+			}
+		} catch (e) {
+			console.log("Error", e)
+		}
+	}
+
 	return (
 		<div className="cont">
 			<button onClick={testStrings}>Test strings</button>
@@ -334,6 +369,7 @@ function App() {
 			<button onClick={testParallelAsync}>Test parallel async</button>
 			<button onClick={testParallelArrayAsync}>Test parallel array async</button>
 			<button onClick={testParallelArrayAsyncSemaphore}>Test parallel array async semaphore</button>
+			<button onClick={testParallelArrayAsyncSemaphoreError}>Test parallel array async semaphore error</button>
 		</div>
 	)
 }

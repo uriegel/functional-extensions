@@ -22,6 +22,7 @@ export type Semaphore = {
 export type ResolverPromise<T> = {
     promise: Promise<T>
     resolve: (t: T)=>void
+    reject: (e: Error)=>void
     isResolved: ()=>boolean
 }
 
