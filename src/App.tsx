@@ -2,8 +2,9 @@ import "./App.css"
 import "../extensions/index"
 import { Result, Ok, Err } from "../extensions/result"
 import { AsyncResult } from "../extensions/asyncresult"
-import { createSemaphore, delayAsync, toAsync } from "../extensions/index"
+import { createSemaphore, ErrorType, delayAsync, toAsync } from "../extensions/index"
 import { AsyncEnumerable } from "../extensions/asyncenumerable"
+import { jsonGet, setBaseUrl } from "../extensions/requests"
 
 type Error = {
 	msg: string
@@ -14,6 +15,13 @@ const mapStrToError = (s: string):Error => ({
 	msg: s,
 	id: 789
 })
+
+type JsonGetResult = {
+	page: number,
+    per_page: number,
+    total: number,
+    total_pages: number
+}
 
 function App() {
 
@@ -248,7 +256,15 @@ function App() {
 		resMatch(res10)
 	}
 
-	const testParallelAsync = async () => {
+	const runJsonGet = () => {
+		
+		setBaseUrl("https://reqres.in")
+
+		const result = jsonGet<JsonGetResult, ErrorType>("api/users?page=2")
+		console.log("jsonGet", result)
+}
+
+const testParallelAsync = async () => {
 
 		const testAsync = async (id: string, delayinSecs: number) => {
 			await delayAsync(delayinSecs * 1000)
@@ -366,6 +382,7 @@ function App() {
 			<button onClick={testResult}>Test Result</button>
 			<button onClick={testAsyncTasks}>Test Async</button>
 			<button onClick={testAsyncResult}>Test AsyncResult</button>
+			<button onClick={runJsonGet}>JSON Get</button>			
 			<button onClick={testParallelAsync}>Test parallel async</button>
 			<button onClick={testParallelArrayAsync}>Test parallel array async</button>
 			<button onClick={testParallelArrayAsyncSemaphore}>Test parallel array async semaphore</button>
