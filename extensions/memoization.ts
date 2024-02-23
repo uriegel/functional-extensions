@@ -2,7 +2,7 @@ import { Resetter } from "./Resetter"
 import { RefCell } from "./refcell"
 
 type MemoizationType<T> = {
-    Value?: T
+    value?: T
     isValid: boolean
 }
 
@@ -12,11 +12,11 @@ export const memoize = <T>(funToMemoize: () => T, resetter?: Resetter) => {
     
     return () => {
         if (refCell.value!.isValid)
-            return refCell.value!.Value
+            return refCell.value!.value
         else {
-            refCell.value!.Value = funToMemoize()
+            refCell.value!.value = funToMemoize()
             refCell.value!.isValid = true
-            return refCell.value!.Value
+            return refCell.value!.value
         }
     }
 }
@@ -27,11 +27,11 @@ export const memoizeAsync = <T>(funToMemoize: () => Promise<T>, resetter?: Reset
 
     return async () => {
         if (refCell.value!.isValid)
-            return refCell.value!.Value
+            return refCell.value!.value
         else {
-            refCell.value!.Value = await funToMemoize()
+            refCell.value!.value = await funToMemoize()
             refCell.value!.isValid = true
-            return refCell.value!.Value
+            return refCell.value!.value
         }
     }
 }
