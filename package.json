@@ -1,6 +1,6 @@
 {
     "name": "functional-extensions",
-    "version": "1.9.7",
+    "version": "1.9.8",
     "description": "Extension functions for Typescript, mostly functional extensions",
     "author": "uriegel",
     "license": "MIT",
@@ -17,8 +17,8 @@
         "react-dom": "^18.2.0",
         "@types/react": "^18.2.43",
         "@types/react-dom": "^18.2.17",
-        "@typescript-eslint/eslint-plugin": "^6.14.0",
-        "@typescript-eslint/parser": "^6.14.0",
+        "@typescript-eslint/eslint-plugin": "^7.0.1",
+        "@typescript-eslint/parser": "^7.0.1",
         "@vitejs/plugin-react": "^4.2.1",
         "eslint": "^8.55.0",
         "eslint-plugin-react-hooks": "^4.6.0",
