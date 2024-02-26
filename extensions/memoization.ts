@@ -12,11 +12,11 @@ export const memoize = <T>(funToMemoize: () => T, resetter?: Resetter) => {
     
     return () => {
         if (refCell.value!.isValid)
-            return refCell.value!.value
+            return refCell.value!.value!
         else {
             refCell.value!.value = funToMemoize()
             refCell.value!.isValid = true
-            return refCell.value!.value
+            return refCell.value!.value!
         }
     }
 }
@@ -27,11 +27,11 @@ export const memoizeAsync = <T>(funToMemoize: () => Promise<T>, resetter?: Reset
 
     return async () => {
         if (refCell.value!.isValid)
-            return refCell.value!.value
+            return refCell.value!.value!
         else {
             refCell.value!.value = await funToMemoize()
             refCell.value!.isValid = true
-            return refCell.value!.value
+            return refCell.value!.value!
         }
     }
 }
