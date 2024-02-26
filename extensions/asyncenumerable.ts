@@ -74,6 +74,15 @@ export class AsyncEnumerable<T> {
         return new AsyncEnumerable(map())
     }
 
+    static fromArrayAsyncIterablesPromise<T>(iterablesPromise: Promise<AsyncIterable<T>[]>) {
+        async function* map(): AsyncIterable<T> {
+            const iterables = await iterablesPromise
+            for await (const item of AsyncEnumerable.fromArrayAsyncIterables(iterables).asIterable())
+                yield item
+        }
+        return map()
+    }
+
     filter(predicate: (t: T) => boolean): AsyncEnumerable<T> {
         async function* map(asyncIterable: AsyncIterable<T>): AsyncIterable<T> {
             for await (const value of asyncIterable) {
