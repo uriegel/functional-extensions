@@ -79,6 +79,14 @@ declare global {
         insert(index: number, t: T): T[]
 
         /**
+         * Functionally changes a T t in this array leaving the original array untouched and returns a new array
+         * 
+         * @param index Position at which the to changed element is 
+         * @param t Element to change
+         */
+        change(index: number, t: T): T[]
+
+        /**
          * Functionally appends a T t to this array leaving the original array untouched and returns a new array
          * 
          * @param t Element to insert
@@ -190,7 +198,14 @@ Array.prototype.insert = function<T> (index: number, t: T): T[] {
     ]
 }
 
-Array.prototype.append = function<T> (t: T): T[] {
+Array.prototype.change = function<T> (index: number, t: T): T[] {
+    return [...this.slice(0, index),
+        t,
+        ...this.slice(index + 1)
+    ]
+}
+
+Array.prototype.append = function <T>(t: T): T[] {
     return [...this, t]
 }
 
