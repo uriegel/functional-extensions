@@ -30,6 +30,21 @@ export type Nothing = Record<string, never>
 
 export const nothing: Nothing = {}
 
+type Dictionary<Key extends keyof any, Value> = {
+    [key in Key]: Value
+}
+
+/**
+ * Returns a dictionary from an array of key value pairs
+ * 
+ * @param arr array of key value pairs
+ */
+export function mergeToDictionary<K extends keyof any, T>(arr: { key: K, value: T }[]): Dictionary<K, T> {
+    const dictionary: Dictionary<K, T> = {} as Dictionary<K, T>
+    arr.forEach(n => dictionary[n.key] = n.value)
+    return dictionary
+}
+
 declare global {
     interface String {
         /** 
@@ -120,6 +135,12 @@ declare global {
          * @param count 
          */
         skip(count: number): T[]
+
+        /**
+         * Returns the difference between this array and the array arr
+         * @param arr the array containing the elements to substruct
+         */
+        diff(arr: T[]): T[]
     }
 
     interface Number {
@@ -227,6 +248,11 @@ Array.prototype.take = function <T>(count: number): T[] {
 
 Array.prototype.skip = function <T>(count: number): T[] {
     return count > 0 ? this.slice(count) : this
+}
+
+Array.prototype.diff = function <T>(arr: T[]): T[] {
+    var set = new Set(arr)
+    return [...new Set(this)].filter(n => !set.has(n))
 }
 
 Number.prototype.byteCountToString = function () {

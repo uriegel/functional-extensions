@@ -2,7 +2,7 @@ import "./App.css"
 import "../extensions/index"
 import { Result, Ok, Err } from "../extensions/result"
 import { AsyncResult } from "../extensions/asyncresult"
-import { createSemaphore, ErrorType, delayAsync, toAsync } from "../extensions/index"
+import { createSemaphore, ErrorType, delayAsync, toAsync, mergeToDictionary } from "../extensions/index"
 import { AsyncEnumerable } from "../extensions/asyncenumerable"
 import { jsonGet, setBaseUrl } from "../extensions/requests"
 
@@ -83,6 +83,25 @@ function App() {
 		console.log("append", numberarr.append(456), numberarr)
 		console.log("contains 5", numberarr.contains(5))
 		console.log("contains 123", numberarr.contains(123))
+
+		var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+		console.log("diff odd", arr.diff([1, 3, 5, 7, 9]))
+		console.log("diff even", arr.diff([2, 4, 6, 8]))
+		console.log("diff nothing", arr.diff([]))
+		console.log("diff others", arr.diff([11, 22, 33, 44]))
+
+		var sarr = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+		console.log("diff odd", sarr.diff(["1", "3", "5", "7"]))
+
+		var keyValues = [
+			{ key: "eins", value: 1 },
+			{ key: "zwei", value: 2 },
+			{ key: "drei", value: 3 },
+			{ key: "vier", value: 4 }
+		]
+		var dict = mergeToDictionary(keyValues)
+		console.log("from 2", dict["zwei"])
+		console.log("from 3", dict["drei"])
 	}
 
 	const testNumbers = () => {
