@@ -141,6 +141,20 @@ declare global {
          * @param arr the array containing the elements to substruct
          */
         diff(arr: T[]): T[]
+
+        /**
+         * Returns the array's maximum
+         * @param arr the array containing the elements
+         * @param mapNumber function to get a value from each element to determine the maximum
+         */
+        max(arr: T[], mapNumber: (t: T)=>number): number
+
+        /**
+         * Returns the array's minimum
+         * @param arr the array containing the elements
+         * @param mapNumber function to get a value from each element to determine the minimum
+         */
+        min(arr: T[], mapNumber: (t: T)=>number): number
     }
 
     interface Number {
@@ -251,8 +265,16 @@ Array.prototype.skip = function <T>(count: number): T[] {
 }
 
 Array.prototype.diff = function <T>(arr: T[]): T[] {
-    var set = new Set(arr)
+    const set = new Set(arr)
     return [...new Set(this)].filter(n => !set.has(n))
+}
+
+Array.prototype.max = function <T>(arr: T[], mapNumber: (t: T) => number): number {
+    return Math.max(...arr.map(mapNumber))
+}
+
+Array.prototype.min = function <T>(arr: T[], mapNumber: (t: T) => number): number {
+    return Math.min(...arr.map(mapNumber))
 }
 
 Number.prototype.byteCountToString = function () {
