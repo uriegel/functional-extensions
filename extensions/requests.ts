@@ -1,6 +1,6 @@
-import { AsyncResult } from "./asyncresult"
-import { ErrorType } from "./index"
-import { Err, Ok, Result } from "./result"
+import { AsyncResult } from "./asyncresult.js"
+import { ErrorType } from "./index.js"
+import { Err, Ok, Result } from "./result.js"
 
 type RequestType = {
     method: string

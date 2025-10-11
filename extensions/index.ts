@@ -1,13 +1,13 @@
 export { }
-import { AsyncResult } from "./asyncresult"
-import { AsyncEnumerable } from "./asyncenumerable"
-import { jsonPost, setBaseUrl } from "./requests"
-import { Result, Err, Ok } from "./result"
-import { Resetter } from "./Resetter"
-import { RefCell } from "./refcell"
-import { memoize, memoizeAsync } from "./memoization"
-import { createResolverPromise } from "./resolverpromise"
-import { createSemaphore } from "./semaphore"
+import { AsyncResult } from "./asyncresult.js"
+import { AsyncEnumerable } from "./asyncenumerable.js"
+import { jsonPost, setBaseUrl } from "./requests.js"
+import { Result, Err, Ok } from "./result.js"
+import { Resetter } from "./Resetter.js"
+import { RefCell } from "./refcell.js"
+import { memoize, memoizeAsync } from "./memoization.js"
+import { createResolverPromise } from "./resolverpromise.js"
+import { createSemaphore } from "./semaphore.js"
 
 export interface ErrorType {
     status: number

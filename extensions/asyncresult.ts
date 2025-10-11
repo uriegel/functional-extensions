@@ -1,4 +1,4 @@
-import { Err, Ok, Result } from "./result";
+import { Err, Ok, Result } from "./result.js"
 
 export class AsyncResult<T, E> {
     constructor(private resultTask: Promise<Result<T, E>>) { }

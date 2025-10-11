@@ -1,9 +1,10 @@
 {
     "name": "functional-extensions",
-    "version": "1.9.17",
+    "version": "2.0.0",
     "description": "Extension functions for Typescript, mostly functional extensions",
     "author": "uriegel",
     "license": "MIT",
+    "type": "module",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/uriegel/functional-extensions.git"

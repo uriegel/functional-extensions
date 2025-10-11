@@ -1,5 +1,5 @@
-import { ResolverPromise, Semaphore } from "./index"
-import { createResolverPromise } from "./resolverpromise"
+import { ResolverPromise, Semaphore } from "./index.js"
+import { createResolverPromise } from "./resolverpromise.js"
 
 export const createSemaphore = (initialCount: number, maxCount: number): Semaphore => {
 

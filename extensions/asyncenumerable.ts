@@ -1,4 +1,4 @@
-import { createResolverPromise } from "./resolverpromise"
+import { createResolverPromise } from "./resolverpromise.js"
 
 export class AsyncEnumerable<T> {
     constructor(private asyncIterable: AsyncIterable<T>) { }

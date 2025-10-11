@@ -1,5 +1,5 @@
-import { Resetter } from "./Resetter"
-import { RefCell } from "./refcell"
+import { Resetter } from "./Resetter.js"
+import { RefCell } from "./refcell.js"
 
 type MemoizationType<T> = {
     value?: T

@@ -1,4 +1,4 @@
-import { ResolverPromise } from "./index"
+import { ResolverPromise } from "./index.js"
 
 export const createResolverPromise = <T>() => {
     let resolve: (t: T)=>void = ()=>{}
