@@ -38,7 +38,21 @@ function App() {
 	console.log("arr.skip 3", arr.skip(3))
 	console.log("arr.skip 5", arr.skip(5))
 	console.log("arr.skip 50", arr.skip(50))
-	
+
+	const plus100Async = async (n: number) => {
+		await delayAsync(3000)
+		console.log("plus100Async processed", n)
+		return n + 100
+	}
+		
+	const asyncArray = AsyncEnumerable.fromArray(arr)
+	const asyncArrayRsult = asyncArray.mapAwait(plus100Async)
+
+	;(async () => {
+		const result = await asyncArrayRsult.await()	
+		console.log("result from async array", result)
+	})()
+		
 	const testStrings = async () => {
 
 		const delayedValue = (value: number): Promise<number> => 

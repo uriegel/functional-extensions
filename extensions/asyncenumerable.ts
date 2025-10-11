@@ -1,3 +1,4 @@
+import { toAsync } from "./index.js"
 import { createResolverPromise } from "./resolverpromise.js"
 
 export class AsyncEnumerable<T> {
@@ -11,6 +12,10 @@ export class AsyncEnumerable<T> {
                 yield enumerable[i]
         }
         return new AsyncEnumerable<T>(generate())
+    }
+
+    static fromArray<T>(arr: T[]) {
+        return this.from(toAsync(arr))
     }
 
     static fromPromises<T>(promises: Promise<T>[]) {
@@ -112,7 +117,16 @@ export class AsyncEnumerable<T> {
         return new AsyncEnumerable(map(this.asyncIterable))
     }
 
-    bind<R>(selector: (n: T)=>AsyncEnumerable<R>) {
+    mapAwait<R>(selector: (n: T)=>Promise<R>) {
+        async function* map(asyncIterable: AsyncIterable<T>): AsyncIterable<R> {
+            for await (const value of asyncIterable) {
+                yield await selector(value)
+            }
+		}
+        return new AsyncEnumerable(map(this.asyncIterable))
+    }
+
+    bind<R>(selector: (n: T) => AsyncEnumerable<R>) {
         async function* map(asyncIterable: AsyncIterable<T>): AsyncIterable<R> {
             for await (const value of asyncIterable) {
                 for await (const val of selector(value).asyncIterable)
