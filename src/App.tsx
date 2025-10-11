@@ -45,8 +45,9 @@ function App() {
 		return n + 100
 	}
 		
-	const asyncArray = AsyncEnumerable.fromArray(arr)
-	const asyncArrayRsult = asyncArray.mapAwait(plus100Async)
+	const asyncArrayRsult = arr
+		.toAsyncEnumerable()
+		.mapAwait(plus100Async)
 
 	;(async () => {
 		const result = await asyncArrayRsult.await()	

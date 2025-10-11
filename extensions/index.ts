@@ -152,7 +152,12 @@ declare global {
          * Returns the array's minimum
          * @param mapNumber function to get a value from each element to determine the minimum
          */
-        min(mapNumber: (t: T)=>number): number
+        min(mapNumber: (t: T) => number): number
+        
+        /**
+         * Returns the array as AsyncEnumerable so that you can map the items asynchronously 
+         */
+        toAsyncEnumerable(): AsyncEnumerable<T>
     }
 
     interface Number {
@@ -273,6 +278,10 @@ Array.prototype.max = function <T>(mapNumber: (t: T) => number): number {
 
 Array.prototype.min = function <T>(mapNumber: (t: T) => number): number {
     return Math.min(...this.map(mapNumber))
+}
+
+Array.prototype.toAsyncEnumerable = function <T>(): AsyncEnumerable<T> {
+    return AsyncEnumerable.fromArray<T>(this)
 }
 
 Number.prototype.byteCountToString = function () {
