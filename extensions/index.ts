@@ -48,19 +48,19 @@ export function mergeToDictionary<K extends keyof any, T>(arr: { key: K, value: 
 declare global {
     interface String {
         /** 
-         * Returns a substring after a found char, not including the char 
+         * Returns a substring after a found string, not including the string
         */
-        substringAfter(startChar: string): string
+        substringAfter(startString: string): string
     
         /**
-        * Returns a substring, until a char in the string is found, not including the found char
+        * Returns a substring, until a substring in the string is found, not including the found string
         */
-        substringUntil(endChar: string): string
+        substringUntil(endString: string): string
     
         /**
-        * Combination of 'SubstringAfter' and 'SubstringUntil', returning a substring embedded between 'startChar and 'endChar'
+        * Combination of 'SubstringAfter' and 'SubstringUntil', returning a substring embedded between 'startString and 'endString'
         */
-        stringBetween(startChar: string, endChar: string): string
+        stringBetween(startString: string, endString: string): string
     
         lastIndexOfAny(chars: string[]): number
 
@@ -202,24 +202,26 @@ declare global {
     }
 }
 
-String.prototype.substringAfter = function (startChar: string): string {
-    const posStart = (this?.indexOf(startChar) ?? -2) + 1 
-    return posStart != -1 && posStart < this.length - 1
-    ? this.substring(posStart)
-    : ""
+String.prototype.substringAfter = function (startStr: string): string {
+    if (!this)
+        return "";
+    const num = this.indexOf(startStr) + startStr.length
+    if (num == startStr.length - 1 || num >= this.length)
+        return "";
+    return this.substring(num, this.length - num);
 }
 
-String.prototype.substringUntil = function (endChar: string): string {
-    const posEnd = this?.indexOf(endChar) ?? 0
+String.prototype.substringUntil = function (endStr: string): string {
+    const posEnd = this?.indexOf(endStr) ?? 0
     return posEnd > 0
     ? this.substring(0, posEnd)
     : this as string ?? ""
 }
 
-String.prototype.stringBetween = function (startChar: string, endChar: string): string {
+String.prototype.stringBetween = function (startStr: string, endStr: string): string {
     return this
-        ?.substringAfter(startChar)
-        ?.substringUntil(endChar)
+        ?.substringAfter(startStr)
+        ?.substringUntil(endStr)
         ?? "";
 }
 
