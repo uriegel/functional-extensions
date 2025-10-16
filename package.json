@@ -1,6 +1,6 @@
 {
     "name": "functional-extensions",
-    "version": "2.2.0",
+    "version": "2.4.0",
     "description": "Extension functions for Typescript, mostly functional extensions",
     "author": "uriegel",
     "license": "MIT",
@@ -14,18 +14,17 @@
         "extensions/dist"
     ],
     "devDependencies": {
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "@types/react": "^18.2.43",
-        "@types/react-dom": "^18.2.17",
-        "@typescript-eslint/eslint-plugin": "^7.0.1",
-        "@typescript-eslint/parser": "^7.0.1",
-        "@vitejs/plugin-react": "^4.2.1",
-        "eslint": "^8.55.0",
-        "eslint-plugin-react-hooks": "^4.6.0",
-        "eslint-plugin-react-refresh": "^0.4.5",
-        "typescript": "5.3.3",
-        "vite": "^5.0.8"
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0",
+        "@types/react": "^19.2.2",
+        "@types/react-dom": "^19.2.2",
+"@vitejs/plugin-react": "^5.0.4",
+    "@eslint/js": "^9.37.0",
+        "eslint-plugin-react-hooks": "^7.0.0",
+        "eslint-plugin-react-refresh": "^0.4.24",
+        "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.0",
+        "vite": "^7.1.10"
     },
     "scripts": {
         "dev": "vite",

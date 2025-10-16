@@ -74,7 +74,22 @@ declare global {
         /**
          * Parses this string and returns a number if possible othwewise null
          */
-        parseInt(): number|null
+        parseInt(): number | null
+
+        /**
+         * If this is a file path, getting the file extension of it
+         */
+        getFileExtension(): string
+
+        /**
+         * If this is a file path, getting the parent file path
+         */
+        getParentPath(): string
+
+        /**
+         * If this is a file path, getting the file name (or if this is a directory path, getting the directory name)
+         */
+        getFileName(): string
     }
    
     interface Array<T> {
@@ -158,6 +173,12 @@ declare global {
          * Returns the array as AsyncEnumerable so that you can map the items asynchronously 
          */
         toAsyncEnumerable(): AsyncEnumerable<T>
+
+        /**
+         * Returns the array's average
+         * @param mapNumber function to get a value from each element to determine the average
+         */
+        average(mapNumber: (t: T) => number): number
     }
 
     interface Number {
@@ -224,7 +245,26 @@ String.prototype.parseInt = function (): number|null {
         : result
 }
 
-Array.prototype.sideEffectForEach = function<T> (sideEffect: (t: T)=>void): T[] {
+String.prototype.getFileExtension = function (): string {
+    const index = this.lastIndexOf(".")
+    return index > 0 ? this.substring(index) : ""
+}
+
+String.prototype.getParentPath = function (): string {
+    return this.length > 1 && (this.charAt(this.length - 1) == "/" || this.charAt(this.length - 1) == "\\")
+        ? this.substring(0, this.substring(0, this.length - 1).lastIndexOfAny(["/", "\\"]))
+        : this.substring(0, this.lastIndexOfAny(["/", "\\"]))
+}
+
+String.prototype.getFileName = function (): string {
+    const pos = this.lastIndexOfAny(["/", "\\"])
+    return pos == -1
+        ? this as string
+        : this.substring(pos)
+    
+}
+
+Array.prototype.sideEffectForEach = function <T>(sideEffect: (t: T) => void): T[] {
     this.forEach(sideEffect)
     return this 
 }
@@ -282,6 +322,10 @@ Array.prototype.min = function <T>(mapNumber: (t: T) => number): number {
 
 Array.prototype.toAsyncEnumerable = function <T>(): AsyncEnumerable<T> {
     return AsyncEnumerable.fromArray<T>(this)
+}
+
+Array.prototype.average = function <T>(mapNumber: (t: T) => number): number {
+    return this.map(mapNumber).reduce((sum, num) => sum + num, 0) / this.length
 }
 
 Number.prototype.byteCountToString = function () {
