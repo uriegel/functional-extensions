@@ -208,7 +208,7 @@ String.prototype.substringAfter = function (startStr: string): string {
     const num = this.indexOf(startStr) + startStr.length
     if (num == startStr.length - 1 || num >= this.length)
         return "";
-    return this.substring(num, this.length - num);
+    return this.substring(num);
 }
 
 String.prototype.substringUntil = function (endStr: string): string {
