@@ -179,6 +179,12 @@ declare global {
          * @param mapNumber function to get a value from each element to determine the average
          */
         average(mapNumber: (t: T) => number): number
+
+        /**
+         * f Divides an array in two parts based on the condition of an element
+         * @param condition Function checking if an item belongs to the first or the second result array
+         */
+        partition(condition: (n: T) => boolean): [T[], T[]]
     }
 
     interface Number {
@@ -328,6 +334,14 @@ Array.prototype.toAsyncEnumerable = function <T>(): AsyncEnumerable<T> {
 
 Array.prototype.average = function <T>(mapNumber: (t: T) => number): number {
     return this.map(mapNumber).reduce((sum, num) => sum + num, 0) / this.length
+}
+
+Array.prototype.partition = function <T>(condition: (t: T) => boolean): [T[], T[]] {
+    return this.reduce(
+        ([pass, fail], n) =>
+            condition(n) ? [[...pass, n], fail] : [pass, [...fail, n]],
+        [[] as T[], []]
+    )     
 }
 
 Number.prototype.byteCountToString = function () {
