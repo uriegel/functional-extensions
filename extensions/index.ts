@@ -8,6 +8,7 @@ import { RefCell } from "./refcell.js"
 import { memoize, memoizeAsync } from "./memoization.js"
 import { createResolverPromise } from "./resolverpromise.js"
 import { createSemaphore } from "./semaphore.js"
+import { retryOnError, retryOnErrorAsync } from "./error.js"
 
 export interface ErrorType {
     status: number
@@ -404,3 +405,4 @@ export { memoize }
 export { memoizeAsync }
 export { createResolverPromise }
 export { createSemaphore }
+export { retryOnError, retryOnErrorAsync }

@@ -5,7 +5,7 @@
  * @param onError If action throws an error, this function is called
  * @returns a result of type T
  */
-export const retryOnError = <T>(action: () => T, onError: (e: any) => void) => {
+export const retryOnError = <T>(action: () => T, onError: (e: unknown) => void) => {
     try {
         return action()
     } catch (e) {
@@ -21,7 +21,7 @@ export const retryOnError = <T>(action: () => T, onError: (e: any) => void) => {
  * @param onError If action throws an error, this function is called
  * @returns a result of type T
  */
-export const retryOnErrorAsync = async <T>(action: () => Promise<T>, onError: (e: any)=>Promise<void>) => {
+export const retryOnErrorAsync = async <T>(action: () => Promise<T>, onError: (e: unknown)=>Promise<void>) => {
     try {
         return await action()
     } catch (e) {
