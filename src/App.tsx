@@ -26,6 +26,10 @@ type JsonGetResult = {
 function App() {
 
 	const arr = [1, 2, 3, 4, 5]
+
+	const [even, odd] = arr.partition(n => n % 2 == 0)
+	console.log("even", even, "odd", odd)
+
 	console.log("arr.take -1", arr.take(-1))
 	console.log("arr.take 0", arr.take(0))
 	console.log("arr.take 1", arr.take(1))
