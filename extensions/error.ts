@@ -15,8 +15,8 @@ export const retryOnError = <T>(action: () => T, onError: (e: unknown) => void, 
                 throw e
             onError(e)
         }
-        throw "too many iterations"
     }
+    throw "too many iterations"
 }
 
 /**
