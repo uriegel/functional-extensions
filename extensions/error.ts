@@ -14,7 +14,7 @@ export const retryOnError = <T>(action: () => T, onError: (e: unknown, cancel: (
         } catch (e) {
             let cancel = false
             try {
-                onError(e, () => cancel = true)
+                onError(e, () => { cancel = true })
             } catch (e) {
                 if (cancel || n == retryCount - 1)
                     throw e
