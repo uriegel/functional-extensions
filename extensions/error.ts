@@ -7,17 +7,13 @@
  * @returns a result of type T
  */
 export const retryOnError = <T>(action: () => T, onError: (e: unknown) => void, retryCount = 1) => {
-    for (let n = 0; n < retryCount; n++) {
+    for (let n = 0; n <= retryCount; n++) {
         try {
             return action()
         } catch (e) {
-            try {
-                onError(e)
-            } catch (e) {
-                if (n == retryCount - 1)
-                    throw e
-            }
+            onError(e)
         }
+        throw "too many iterations"
     }
 }
 
@@ -30,16 +26,12 @@ export const retryOnError = <T>(action: () => T, onError: (e: unknown) => void, 
  * @returns a result of type T
  */
 export const retryOnErrorAsync = async <T>(action: () => Promise<T>, onError: (e: unknown)=>Promise<void>, retryCount = 1) => {
-    for (let n = 0; n < retryCount; n++) {
+    for (let n = 0; n <= retryCount; n++) {
         try {
             return await action()
         } catch (e) {
-            try {
-                await onError(e)
-            } catch (e) {
-                if (n == retryCount - 1)
-                    throw e
-            }
+            await onError(e)
         }
     }
+    throw "too many iterations"
 }
