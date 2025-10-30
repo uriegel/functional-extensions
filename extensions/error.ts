@@ -3,14 +3,21 @@
  * If it can be corrected, onError returns, otherwise onError must throw e. If it does not fail, action is called again
  * @param action The action which will be called, and again, if onError does not fail
  * @param onError If action throws an error, this function is called
+ * @param retryCount Number of trials, 1 is default
  * @returns a result of type T
  */
-export const retryOnError = <T>(action: () => T, onError: (e: unknown) => void) => {
-    try {
-        return action()
-    } catch (e) {
-        onError(e)
-        return action()
+export const retryOnError = <T>(action: () => T, onError: (e: unknown) => void, retryCount = 1) => {
+    for (let n = 0; n < retryCount; n++) {
+        try {
+            return action()
+        } catch (e) {
+            try {
+                onError(e)
+            } catch (e) {
+                if (n == retryCount - 1)
+                    throw e
+            }
+        }
     }
 }
 
@@ -19,13 +26,20 @@ export const retryOnError = <T>(action: () => T, onError: (e: unknown) => void) 
  * If it can be corrected, onError returns, otherwise onError must throw e. If it does not fail, action is called again
  * @param action The action which will be called, and again, if onError does not fail
  * @param onError If action throws an error, this function is called
+ * @param retryCount Number of trials, 1 is default
  * @returns a result of type T
  */
-export const retryOnErrorAsync = async <T>(action: () => Promise<T>, onError: (e: unknown)=>Promise<void>) => {
-    try {
-        return await action()
-    } catch (e) {
-        await onError(e)
-        return await action()
+export const retryOnErrorAsync = async <T>(action: () => Promise<T>, onError: (e: unknown)=>Promise<void>, retryCount = 1) => {
+    for (let n = 0; n < retryCount; n++) {
+        try {
+            return await action()
+        } catch (e) {
+            try {
+                await onError(e)
+            } catch (e) {
+                if (n == retryCount - 1)
+                    throw e
+            }
+        }
     }
 }
