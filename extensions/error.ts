@@ -11,6 +11,8 @@ export const retryOnError = <T>(action: () => T, onError: (e: unknown) => void, 
         try {
             return action()
         } catch (e) {
+            if (n == retryCount)
+                throw e
             onError(e)
         }
         throw "too many iterations"
@@ -30,6 +32,8 @@ export const retryOnErrorAsync = async <T>(action: () => Promise<T>, onError: (e
         try {
             return await action()
         } catch (e) {
+            if (n == retryCount)
+                throw e
             await onError(e)
         }
     }
