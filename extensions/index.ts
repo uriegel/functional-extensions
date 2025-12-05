@@ -118,6 +118,20 @@ declare global {
         change(index: number, t: T): T[]
 
         /**
+         * Functionally changes a T t in this array leaving the original array untouched and returns a new array
+         * 
+         * @param index Position at which the to changed element is 
+         * @param t Callback to change element. Important: always return a new object:
+         * ```
+         * const updated = users.changeValue(index, user => ({
+         *    ...user,
+         *     age: user.age + 1,
+         * }))
+         * ```
+         */
+        changeValue(index: number, t: (t:T)=>T): T[]
+
+        /**
          * Functionally appends a T t to this array leaving the original array untouched and returns a new array
          * 
          * @param t Element to insert
@@ -288,6 +302,13 @@ Array.prototype.insert = function<T> (index: number, t: T): T[] {
 Array.prototype.change = function<T> (index: number, t: T): T[] {
     return [...this.slice(0, index),
         t,
+        ...this.slice(index + 1)
+    ]
+}
+
+Array.prototype.changeValue = function<T> (index: number, t: (t:T)=>T): T[] {
+    return [...this.slice(0, index),
+        t(this[index]),
         ...this.slice(index + 1)
     ]
 }
