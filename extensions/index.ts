@@ -88,6 +88,14 @@ declare global {
         getParentPath(): string
 
         /**
+         * appends a sub path to this path string 
+         * 
+         * This function is usable for URL and Linux paths
+         * @param subPath Path to append
+         */
+        appendPath(subPath: string): string
+
+        /**
          * If this is a file path, getting the file name (or if this is a directory path, getting the directory name)
          */
         getFileName(): string
@@ -278,6 +286,13 @@ String.prototype.getParentPath = function (): string {
         ? this.substring(0, this.substring(0, this.length - 1).lastIndexOfAny(["/", "\\"]))
         : this.substring(0, this.lastIndexOfAny(["/", "\\"]))
 }
+
+String.prototype.appendPath = function (subPath: string): string {
+    return this.endsWith("/") || subPath.startsWith('/')
+        ? this + subPath
+        : this + "/" + subPath
+}
+
 
 String.prototype.getFileName = function (): string {
     const pos = this.lastIndexOfAny(["/", "\\"])
